@@ -1,7 +1,5 @@
 ﻿using System.Text.RegularExpressions;
 
-using System.Text.RegularExpressions;
-
 namespace PasswordValidatorApi.Validators
 {
     public class PasswordValidator : IPasswordValidator

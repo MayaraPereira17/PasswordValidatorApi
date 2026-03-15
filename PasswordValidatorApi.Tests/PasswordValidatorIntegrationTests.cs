@@ -48,6 +48,7 @@ namespace PasswordValidatorApi.Tests
             var result = await response.Content.ReadFromJsonAsync<bool>();
             Assert.False(result);
         }
+
         [Fact]
         public async Task MissingPasswordPropertyReturns400BadRequest()
         {
@@ -97,7 +98,7 @@ namespace PasswordValidatorApi.Tests
         public async Task PasswordWithoutDigit_Returns422AndFalse()
         {
             var client = _factory.CreateClient();
-            var response = await client.PostAsJsonAsync("validate-password", new PasswordRequest { Password = "AbTp!fok" });
+            var response = await client.PostAsJsonAsync("validate-password", new PasswordRequest { Password = "AbTpX!fok" });
 
             Assert.Equal((HttpStatusCode)422, response.StatusCode);
 
@@ -109,7 +110,19 @@ namespace PasswordValidatorApi.Tests
         public async Task PasswordWithoutSpecialChar_Returns422AndFalse()
         {
             var client = _factory.CreateClient();
-            var response = await client.PostAsJsonAsync("validate-password", new PasswordRequest { Password = "AbTp9fok" });
+            var response = await client.PostAsJsonAsync("validate-password", new PasswordRequest { Password = "AbTp9fokX" });
+
+            Assert.Equal((HttpStatusCode)422, response.StatusCode);
+
+            var result = await response.Content.ReadFromJsonAsync<bool>();
+            Assert.False(result);
+        }
+
+        [Fact]
+        public async Task PasswordWithRepeatedCharacters_Returns422AndFalse()
+        {
+            var client = _factory.CreateClient();
+            var response = await client.PostAsJsonAsync("validate-password", new PasswordRequest { Password = "AbTp9!foA" });
 
             Assert.Equal((HttpStatusCode)422, response.StatusCode);
 
