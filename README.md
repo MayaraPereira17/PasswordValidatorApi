@@ -36,6 +36,13 @@ curl -X POST https://localhost:7254/validate-password \
   -H "Content-Type: application/json" \
   -d '{"password": "AbTp9!fok"}'
 ```
+### Retorno esperado
+
+A API retorna um valor booleano:
+
+- `true` → senha válida  
+- `false` → senha inválida
+
 
 ### Como rodar os testes
 
